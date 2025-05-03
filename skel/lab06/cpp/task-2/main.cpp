@@ -6,6 +6,7 @@
 #include <queue>
 #include <algorithm>
 #include <string>
+#include <stack>
 using namespace std;
 
 class Task {
@@ -36,6 +37,17 @@ private:
         fin.close();
     }
 
+    void dfsRec(vector<bool> &visited, int curr, stack<int> &s) {
+        visited[curr] = true;
+
+        for (int i : adj[curr]) {
+            if(!visited[i]) {
+                dfsRec(visited, i, s);
+            }
+        }
+
+        s.push(curr);
+    }
 
 
     vector<int> get_result() {
@@ -43,14 +55,24 @@ private:
         // *******
         // ATENTIE: nodurile sunt indexate de la 1 la n.
         // *******
-
-        queue<int> q; //coada pt bfs
-        vector<int> visited (NMAX + 1);
-
-        
-
-
         vector<int> topsort;
+
+        vector<bool> visited (n + 1, false);
+        //vreau sa stiu cand vizitez pereche nod - timp
+        stack<int> s;
+
+        for (int i = 1; i <= n; i++) {
+            if(visited[i] == false) {
+                    dfsRec(visited, i, s);
+            }
+        }
+
+        while(!s.empty()) {
+            int aux = s.top();
+            topsort.push_back(aux);
+            s.pop();
+        }
+
         return topsort;
     }
 
