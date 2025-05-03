@@ -3,6 +3,9 @@
 #include <fstream>
 #include <iostream>
 #include <vector>
+#include <queue>
+#include <algorithm>
+#include <string>
 using namespace std;
 
 class Task {
@@ -33,11 +36,19 @@ private:
         fin.close();
     }
 
+
+
     vector<int> get_result() {
         // TODO: Faceti sortarea topologica a grafului stocat cu liste de adiacenta din adj.
         // *******
         // ATENTIE: nodurile sunt indexate de la 1 la n.
         // *******
+
+        queue<int> q; //coada pt bfs
+        vector<int> visited (NMAX + 1);
+
+        
+
 
         vector<int> topsort;
         return topsort;

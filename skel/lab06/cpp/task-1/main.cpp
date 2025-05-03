@@ -3,6 +3,9 @@
 #include <fstream>
 #include <iostream>
 #include <vector>
+#include <queue>
+#include <algorithm>
+#include <string>
 using namespace std;
 
 class Task {
@@ -46,7 +49,30 @@ private:
         // ATENTIE: nodurile sunt indexate de la 1 la n.
         // *******
 
-        vector<int> d(n + 1);
+        vector<int> d(n + 1, - 1);
+
+        queue<pair<int, int>> q; // coada pentru BFS=> pair dist de la sursa  la nod si nodul la care suntem
+        vector<bool> visited(n + 1, false);
+
+        q.push({source, 0});
+        d[source] = 0; //stiu ca pleaca de acolo;
+        visited[source] = true;
+
+        while(!q.empty()) {
+            auto [curr, dist] = q.front();
+            q.pop();
+
+            for(int neigh : adj[curr]) {
+
+                if(!visited[neigh]) {
+                    visited[neigh] = true;
+                    d[neigh] = dist + 1;
+                    q.push({neigh, dist + 1});
+                }
+            }
+        }
+
+
         return d;
     }
 
